@@ -10,6 +10,21 @@ jobs:
         uses: aaronwhite42/hello-world-docker-action@v1.1
         with:
           who-to-greet: 'Mona the Octocat'
+          
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
+      
+      # Test AZ cli login
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  
+
+      # Run Az cli cmd
+      - name: 'Run az commands'
+        run: |
+          az account show
+          az group list
